@@ -1,0 +1,77 @@
+﻿@model BlogsSystem.MVCSite.Models.ArticleViewModels.CreateArticleViewModels
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>CreateArticleViewModels</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div id="editor">
+                    <p>请在此处编辑您的内容</p>
+                </div>
+                <input type="hidden" name="Content" id="Content" value=" ">
+                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.CategoryIds, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <ul>
+                    @foreach (var item in ViewBag.CategoryIds)
+                    {
+                        <li><input type="checkbox" name="CategoryIds" value="@item.Id" /> @item.CategoryName</li>
+                    }
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <p>@Html.ValidationMessage("CreateArticleError")</p>
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" onclick="GetContent()" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/wangEditor.min.js")
+<script type="text/javascript">
+        var E = window.wangEditor
+        var editor = new E('#editor')
+        // 或者 var editor = new E( document.getElementById('editor') )
+    editor.customConfig.showLinkImg = false
+    editor.customConfig.uploadImgShowBase64 = true
+    editor.create()
+    @*此方法用于传输提交富文本内容*@
+    function GetContent() {
+        var content = editor.txt.html();
+        if (content.trim().length==0) {
+            return false;
+        } else {
+            document.getElementById("Content").value = content;
+            return true;
+        }
+    }
+</script>
+}

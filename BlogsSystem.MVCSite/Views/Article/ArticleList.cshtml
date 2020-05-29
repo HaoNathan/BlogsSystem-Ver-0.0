@@ -1,0 +1,133 @@
+﻿
+@using Webdiyer.WebControls.Mvc
+@model PagedList< BlogsSystem.Dto.ArticleDto>
+
+<p>
+    @Html.ActionLink("Create New", "CreateArticle")
+</p>
+<table class="table">
+
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GoodCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BadCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImagePath)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Content)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GoodCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BadCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImagePath)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditArticle", new { articleId = item.Id }) |
+                    @Html.ActionLink("Details", "ArticleDetails", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+
+
+
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="8">
+                <!-- #region name -->
+                @*<ul>
+                        @if (ViewBag.PageCount <= 7)
+                        {
+                            for (int i = 1; i <= ViewBag.PageCount; i++)
+                            {
+                                <li>
+                                    <a href="/Article/ArticleList?currentIndex=@(i - 1 )"> @i  </a>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            if (ViewBag.currentIndex <= 7 / 2 + 1)
+                            {
+                                for (int i = 1; i < ViewBag.PageCount; i++)
+                                {
+                                    <li>
+                                        <a href="/Article/ArticleList?currentIndex=@(i - 1 )"> @i  </a>
+                                    </li>
+                                }
+
+                            }
+                            else if ((ViewBag.PageCount - ViewBag.currentIndex - 1) <= 7 / 2)
+                            {
+                                for (int i = ViewBag.PageCount - 6; i < ViewBag.PageCount; i++)
+                                {
+                                    <li>
+                                        <a href="/Article/ArticleList?currentIndex=@(i - 1 )"> @i </a>
+                                    </li>
+                                }
+                            }
+                            else
+                            {
+                                for (int i = ViewBag.currentIndex - 7 / 2 + 1; i < ViewBag.PageCount + 7 / 2 + 1; i++)
+                                {
+
+                                    <li>
+                                        <a href="/Article/ArticleList?currentIndex=@(i - 1 )"> @i  </a>
+                                    </li>
+
+                                }
+                            }
+                        }
+
+
+
+                    </ul>*@
+
+                <!-- #endregion -->
+                @Html.Pager(Model, new PagerOptions { PageIndexParameterName = "currentIndex",
+               ContainerTagName = "ul", PagerItemTemplate = "<li>{0}</li>",
+             
+               Id = "bootstrappager" })
+            </td>
+
+        </tr>
+    </tfoot>
+</table>
